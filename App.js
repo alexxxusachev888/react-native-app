@@ -20,7 +20,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <MainStack.Navigator initialRouteName="Home" style={styles}>
+      <MainStack.Navigator initialRouteName="RegistrationScreen" style={styles}>
         <MainStack.Screen name="Home" component={Home} />
         <MainStack.Screen name="LoginScreen" component={LoginScreen} /> 
         <MainStack.Screen name="RegistrationScreen" component={RegistrationScreen} />

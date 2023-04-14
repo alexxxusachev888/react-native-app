@@ -29,7 +29,7 @@ const RegistrationScreen = ({navigation}) => {
     <Background >
       <View style={styles.formContainer}>
         <View style={styles.avatarWrapper}>
-        <TouchableOpacity onPress={selectImage} style={styles.imageContainer}>
+        <TouchableOpacity style={styles.imageContainer}>
             <Icon name="add" size={25} color="#FF6C00" />
         </TouchableOpacity>
         
