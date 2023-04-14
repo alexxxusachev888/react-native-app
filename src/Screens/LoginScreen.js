@@ -4,77 +4,31 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  ImageBackground,
   StyleSheet,
-  Image,
   TouchableWithoutFeedback,
   Keyboard,
   KeyboardAvoidingView,
   Platform
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import ImagePicker from 'react-native-image-picker';
+import Background from '../utils/Background';
 
-const RegistrationScreen = () => {
-  const [login, setLogin] = useState('');
+const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [userImage, setUserImage] = useState(null);
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
 
-  const selectImage = () => {
-    const options = {
-      title: 'Select User Image',
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
-
-    ImagePicker.showImagePicker(options, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else {
-        setUserImage(response.uri);
-      }
-    });
-  };
-
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
- <ImageBackground
-      source={require('../assets/bg-main.png')}
-      style={styles.backgroundImage}
-      resizeMode="cover"
-    >
+      <Background>
       <View style={styles.formContainer}>
-        <View style={styles.avatarWrapper}>
-        <TouchableOpacity onPress={selectImage} style={styles.imageContainer}>
-          {userImage ? (
-            <Image source={{uri: userImage}} style={styles.userImage} />
-          ) : (
-            <Icon name="add" size={25} color="#FF6C00" />
-          )}
-        </TouchableOpacity>
+        <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
+        <View style={styles.formContent}>
+        <Text style={styles.header}>Login</Text>
         
-        </View>
-        <KeyboardAvoidingView
-          behavior={Platform.OS == "ios" ? "padding" : "height"}
-        >
-          <Text style={styles.header}>Registration</Text>
-        
-        <TextInput
-          value={login}
-          onChangeText={(text) => setLogin(text)}
-          placeholder="Login"
-          style={styles.input}
-        />
         <TextInput
           value={email}
           onChangeText={(text) => setEmail(text)}
@@ -95,15 +49,16 @@ const RegistrationScreen = () => {
           </TouchableOpacity>
         </View>
         <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Register</Text>
+          <Text style={styles.buttonText} onPress={()=> navigation.navigate('Home')}>LogIn</Text>
         </TouchableOpacity>
         <Text style={styles.loginText}>
-          Do you have an account already?{' '}
-          <Text style={styles.loginLink}>LogIn</Text>
+          Don`t have an account?{' '}
+          <Text style={styles.loginLink} onPress={()=> navigation.navigate('RegistrationScreen')}>Register</Text>
         </Text>
-        </KeyboardAvoidingView>
+            </View>
+          </KeyboardAvoidingView>
       </View>
-    </ImageBackground>
+      </Background>
     </TouchableWithoutFeedback>
    
   );
@@ -114,13 +69,18 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
   },
+  formContent: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   formContainer: {
     position:'relative',
     backgroundColor: '#FFFFFF',
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,
     padding: 20,
-    paddingTop: 92,
+    paddingTop: 32,
     width: '100%',
     height: 549, 
   },
@@ -131,33 +91,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 32,
   },
-  avatarWrapper:{
-    position: 'absolute',
-    top: -60,
-    left: '50%',
-    transform: [{translateX: -60}],
-    width: 120,
-    height: 120,
-    backgroundColor: '#F6F6F6',
-    borderRadius: 16,
-  },
-  imageContainer: {
-    position: 'absolute',
-    bottom: 15,
-    right: -15,
-    borderWidth: 1,
-    borderColor: '#FF6C00',
-    borderRadius: 50,
-    width: 30,
-    height: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-  }, 
-  userImage: {
-    width: 10,
-    height: 10,
-    borderRadius: 50,
-    },
   input: {
     width: 343,
     height: 50,
@@ -186,7 +119,6 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     lineHeight: 19,
     textAlign: 'center',
-    
     },
   loginText: {
     fontSize: 16,
@@ -217,6 +149,4 @@ const styles = StyleSheet.create({
     },
 });
     
-export default RegistrationScreen;
-
-
+export default LoginScreen;

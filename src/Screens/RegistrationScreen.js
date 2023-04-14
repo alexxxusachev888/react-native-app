@@ -6,16 +6,16 @@ import {
   TouchableOpacity,
   ImageBackground,
   StyleSheet,
-  Image,
   TouchableWithoutFeedback,
   Keyboard,
   KeyboardAvoidingView,
   Platform
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import ImagePicker from 'react-native-image-picker';
+import Background from '../utils/Background';
 
-const LoginScreen = () => {
+const RegistrationScreen = ({navigation}) => {
+  const [login, setLogin] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -26,14 +26,25 @@ const LoginScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ImageBackground
-      source={require('../assets/bg-main.png')}
-      style={styles.backgroundImage}
-      resizeMode="cover" >
+    <Background >
       <View style={styles.formContainer}>
-        <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
-        <Text style={styles.header}>Login</Text>
+        <View style={styles.avatarWrapper}>
+        <TouchableOpacity onPress={selectImage} style={styles.imageContainer}>
+            <Icon name="add" size={25} color="#FF6C00" />
+        </TouchableOpacity>
         
+        </View>
+        <KeyboardAvoidingView
+          behavior={Platform.OS == "ios" ? "padding" : "height"}
+        >
+          <Text style={styles.header}>Registration</Text>
+        
+        <TextInput
+          value={login}
+          onChangeText={(text) => setLogin(text)}
+          placeholder="Login"
+          style={styles.input}
+        />
         <TextInput
           value={email}
           onChangeText={(text) => setEmail(text)}
@@ -54,15 +65,15 @@ const LoginScreen = () => {
           </TouchableOpacity>
         </View>
         <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>LogIn</Text>
+          <Text style={styles.buttonText} onPress={()=> navigation.navigate('Home')}>Register</Text>
         </TouchableOpacity>
         <Text style={styles.loginText}>
-          Don`t have an account?{' '}
-          <Text style={styles.loginLink}>Register</Text>
+          Do you have an account already?{' '}
+          <Text style={styles.loginLink} onPress={()=> navigation.navigate('LoginScreen')}>LogIn</Text>
         </Text>
         </KeyboardAvoidingView>
       </View>
-    </ImageBackground>
+    </Background>
     </TouchableWithoutFeedback>
    
   );
@@ -79,7 +90,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,
     padding: 20,
-    paddingTop: 32,
+    paddingTop: 92,
     width: '100%',
     height: 549, 
   },
@@ -90,6 +101,33 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 32,
   },
+  avatarWrapper:{
+    position: 'absolute',
+    top: -60,
+    left: '50%',
+    transform: [{translateX: -60}],
+    width: 120,
+    height: 120,
+    backgroundColor: '#F6F6F6',
+    borderRadius: 16,
+  },
+  imageContainer: {
+    position: 'absolute',
+    bottom: 15,
+    right: -15,
+    borderWidth: 1,
+    borderColor: '#FF6C00',
+    borderRadius: 50,
+    width: 30,
+    height: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+  }, 
+  userImage: {
+    width: 10,
+    height: 10,
+    borderRadius: 50,
+    },
   input: {
     width: 343,
     height: 50,
@@ -118,6 +156,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     lineHeight: 19,
     textAlign: 'center',
+    
     },
   loginText: {
     fontSize: 16,
@@ -127,25 +166,27 @@ const styles = StyleSheet.create({
     color: '#3498DB',
     fontWeight: 'bold',
     },
-    passwordInputContainer: {
-        position: 'relative',
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 16,
-      },
-    showButton: {
-        position: 'absolute',
-        top: 8,
-        right: 15,
-        marginLeft: 8,
-        padding: 8,
-        borderRadius: 4,
-      },
-    showButtonText: {
-        fontSize: 14,
-        fontWeight: 'bold',
-        color: '#808080',
-      },
+  passwordInputContainer: {
+      position: 'relative',
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: 16,
+    },
+  showButton: {
+      position: 'absolute',
+      top: 8,
+      right: 15,
+      marginLeft: 8,
+      padding: 8,
+      borderRadius: 4,
+    },
+  showButtonText: {
+      fontSize: 14,
+      fontWeight: 'bold',
+      color: '#808080',
+    },
 });
     
-export default LoginScreen;
+export default RegistrationScreen;
+
+
